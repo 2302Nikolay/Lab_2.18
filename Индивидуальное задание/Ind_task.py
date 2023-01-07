@@ -80,7 +80,13 @@ def load_workers(file_name_2):
 def main(command_line=None):
     # Создаем родительский парсер для определения имени файла
     file_parser = argparse.ArgumentParser(add_help=False)
-    file_parser.add_argument("filename", action="store", help="The date file name")
+    file_parser.add_argument(
+        "-f",
+        "--filename",
+        action="store",
+        required=False,
+        help="The data file name"
+    )
     # Основной парсер командной строки
     parser = argparse.ArgumentParser("workers")
     parser.add_argument("--version", action="version", version="%(prog)s 0.1.0")
