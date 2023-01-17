@@ -9,43 +9,29 @@ from datetime import date
 
 
 def add_worker(staff, name, post, year):
-    staff.append(
-        {
-            "name": name,
-            "post": post,
-            "year": year
-        }
-    )
+    staff.append({"name": name, "post": post, "year": year})
 
     return staff
 
 
 def display_workers(staff):
     if staff:
-        line = '+-{}-+-{}-+-{}-+-{}-+'.format(
-            '-' * 4,
-            '-' * 30,
-            '-' * 20,
-            '-' * 8
-        )
+        line = "+-{}-+-{}-+-{}-+-{}-+".format("-" * 4, "-" * 30, "-" * 20, "-" * 8)
         print(line)
         print(
-            '| {:^4} | {:^30} | {:^20} | {:^8} |'.format(
-                "№",
-                "Ф.И.О.",
-                "Должность",
-                "Год"
+            "| {:^4} | {:^30} | {:^20} | {:^8} |".format(
+                "№", "Ф.И.О.", "Должность", "Год"
             )
         )
         print(line)
 
         for idx, worker in enumerate(staff, 1):
             print(
-                '| {:>4} | {:<30} | {:<20} | {:>8} |'.format(
+                "| {:>4} | {:<30} | {:<20} | {:>8} |".format(
                     idx,
-                    worker.get('name', ''),
-                    worker.get('post', ''),
-                    worker.get('year', 0)
+                    worker.get("name", ""),
+                    worker.get("post", ""),
+                    worker.get("year", 0),
                 )
             )
             print(line)
@@ -58,7 +44,7 @@ def select_workers(staff, period):
 
     result = []
     for employee in staff:
-        if today.year - employee.get('year', today.year) >= period:
+        if today.year - employee.get("year", today.year) >= period:
             result.append(employee)
         return result
 
@@ -76,40 +62,19 @@ def load_workers(file_name):
 def main(command_line=None):
     file_parser = argparse.ArgumentParser(add_help=False)
     file_parser.add_argument(
-        "-d",
-        "--data",
-        action="store",
-        required=False,
-        help="The data file name"
+        "-d", "--data", action="store", required=False, help="The data file name"
     )
     parser = argparse.ArgumentParser("workers")
-    parser.add_argument(
-        "--version",
-        action="version",
-        version="%(prog)s 0.1.0"
-    )
+    parser.add_argument("--version", action="version", version="%(prog)s 0.1.0")
     subparsers = parser.add_subparsers(dest="command")
 
-    add = subparsers.add_parser(
-        "add",
-        parents=[file_parser],
-        help="Add a new worker"
-    )
-    add.add_argument(
-        "-n",
-        "--name",
-        action="store",
-        help="The year of hiring"
-    )
+    add = subparsers.add_parser("add", parents=[file_parser], help="Add a new worker")
+    add.add_argument("-n", "--name", action="store", help="The year of hiring")
     _ = subparsers.add_parser(
-        "display",
-        parents=[file_parser],
-        help="Select the workers"
+        "display", parents=[file_parser], help="Select the workers"
     )
     select = subparsers.add_parser(
-        "select",
-        parents=[file_parser],
-        help="Select the workers"
+        "select", parents=[file_parser], help="Select the workers"
     )
     select.add_argument(
         "-p",
@@ -117,7 +82,7 @@ def main(command_line=None):
         action="store",
         type=int,
         required=True,
-        help="The required period"
+        help="The required period",
     )
 
     args = parser.parse_args(command_line)
@@ -135,12 +100,7 @@ def main(command_line=None):
         workers = []
 
     if args.command == "add":
-        workers = add_worker(
-            workers,
-            args.name,
-            args.post,
-            args.year
-        )
+        workers = add_worker(workers, args.name, args.post, args.year)
         is_dirty = True
 
     elif args.command == "display":
