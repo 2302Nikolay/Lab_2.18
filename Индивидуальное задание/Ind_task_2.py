@@ -5,6 +5,7 @@ import json
 import os.path
 import argparse
 import sys
+from dotenv import load_dotenv
 
 
 def add_mans(list_man, name, number, date_):
@@ -112,8 +113,11 @@ def main(command_line=None):
     # Разбор аргументов командной строки
     args = parser.parse_args(command_line)
     data_file = args.filename
+    dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+    if os.path.exists(dotenv_path):
+        load_dotenv(dotenv_path)
     if not data_file:
-        data_file = os.environ.get("WORKERS_DATA")
+        data_file = os.getenv("STUDENTS_DATA")
     if not data_file:
         print("The data file name is absent", file=sys.stderr)
         sys.exit(1)
@@ -134,7 +138,7 @@ def main(command_line=None):
     elif args.command == "select":
         select_mans(mans, args.phone)
     if is_dirty:
-        save_workers(args.filename, mans)
+        save_workers(data_file, mans)
 
 
 if __name__ == "__main__":
